@@ -29,12 +29,21 @@ class TodoController extends Controller
 
     public function edit(Todo $todo)
     {
-        if (auth()->user()->id == $todo->user_id) {
+        //if (auth()->user()->id == $todo->user_id){
+        //return view('todo.edit', compact('todo'));
+        //}else{
+        //    return redirect()->route('todo.index')->with('danger', 'You are not authorized to edit this todo!');
+        //}
 
+        //
+        //}
+
+        // Refactoring code agar lebih singkat
+        if (auth()->user()->id == $todo->user_id) {
             return view('todo.edit', compact('todo'));
-        } else {
-            return redirect()->route('todo.index')->with('danger', 'You are not authorized to edit this todo!');
         }
+
+        return redirect()->route('todo.index')->with('danger', 'You are not authorized to edit this todo!');
     }
 
     public function update(Request $request, Todo $todo)
@@ -55,9 +64,8 @@ class TodoController extends Controller
                 'is_complete' => true,
             ]);
             return redirect()->route('todo.index')->with('success', 'Todo completed successfully!');
-        } else {
-            return redirect()->route('todo.index')->with('danger', 'You are not authorized to complete this todo!');
         }
+        return redirect()->route('todo.index')->with('danger', 'You are not authorized to complete this todo!');
     }
 
     public function uncomplete(Todo $todo)
@@ -67,9 +75,8 @@ class TodoController extends Controller
                 'is_complete' => false,
             ]);
             return redirect()->route('todo.index')->with('success', 'Todo uncompleted successfully!');
-        } else {
-            return redirect()->route('todo.index')->with('danger', 'You are not authorized to uncomplete this todo!');
         }
+        return redirect()->route('todo.index')->with('danger', 'You are not authorized to uncomplete this todo!');
     }
 
     public function store(Request $request, Todo $todo)
@@ -107,9 +114,8 @@ class TodoController extends Controller
         if (auth()->user()->id == $todo->user_id) {
             $todo->delete();
             return redirect()->route('todo.index')->with('success', 'Todo deleted successfully!');
-        } else {
-            return redirect()->route('todo.index')->with('danger', 'You are not authorized to delete this todo!');
         }
+        return redirect()->route('todo.index')->with('danger', 'You are not authorized to delete this todo!');
     }
 
     public function destroyCompleted()
